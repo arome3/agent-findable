@@ -1,0 +1,912 @@
+[
+  {
+    "url": "https://stripe.com",
+    "score": 69,
+    "grade": "D+",
+    "summary": "Overall score: 69/100 (D+). Strong: llms.txt, robots.txt AI Bots, Content Readability, Structured Data Depth, Citability & Evidence, Security & Trust, Crawlability & Rendering. Needs work: Agent Protocols, MCP Readiness, Sitemap, Freshness Signals.",
+    "categories": [
+      {
+        "name": "llms.txt",
+        "weight": 0.08,
+        "score": 88,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "pass",
+            "message": "llms.txt exists"
+          },
+          {
+            "name": "format",
+            "status": "pass",
+            "message": "Valid llms.txt format (H1 + blockquote)"
+          },
+          {
+            "name": "has_links",
+            "status": "pass",
+            "message": "Contains 269 link(s)"
+          },
+          {
+            "name": "llms_full",
+            "status": "warn",
+            "message": "No llms-full.txt found (recommended for deep context)"
+          }
+        ]
+      },
+      {
+        "name": "robots.txt AI Bots",
+        "weight": 0.08,
+        "score": 100,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "pass",
+            "message": "robots.txt exists"
+          },
+          {
+            "name": "ai_bots",
+            "status": "pass",
+            "message": "All 14 AI bots allowed"
+          }
+        ]
+      },
+      {
+        "name": "Content Readability",
+        "weight": 0.08,
+        "score": 100,
+        "checks": [
+          {
+            "name": "text_content",
+            "status": "pass",
+            "message": "Substantial text (13323 chars)"
+          },
+          {
+            "name": "meta_tags",
+            "status": "pass",
+            "message": "Meta description and title present"
+          },
+          {
+            "name": "headings",
+            "status": "pass",
+            "message": "Good heading structure (48 headings)"
+          },
+          {
+            "name": "semantic_html",
+            "status": "pass",
+            "message": "Good semantic HTML (5 landmark elements)"
+          },
+          {
+            "name": "lang_attr",
+            "status": "pass",
+            "message": "HTML lang attribute set"
+          }
+        ]
+      },
+      {
+        "name": "Structured Data Depth",
+        "weight": 0.1,
+        "score": 80,
+        "checks": [
+          {
+            "name": "json_ld",
+            "status": "pass",
+            "message": "Found 1 JSON-LD block(s)"
+          },
+          {
+            "name": "schema_types",
+            "status": "pass",
+            "message": "Schema.org types: WebSite, Organization",
+            "data": {
+              "types": [
+                "WebSite",
+                "Organization"
+              ]
+            }
+          },
+          {
+            "name": "citation_types",
+            "status": "warn",
+            "message": "No high-citation types (FAQPage, Article, HowTo, Product) — these get 50% more AI citations"
+          },
+          {
+            "name": "eeat_types",
+            "status": "pass",
+            "message": "E-E-A-T types: Organization"
+          },
+          {
+            "name": "schema_detail",
+            "status": "warn",
+            "message": "Schema lacks author and date properties — reduces AI trust"
+          }
+        ]
+      },
+      {
+        "name": "Agent Protocols",
+        "weight": 0.05,
+        "score": 17,
+        "checks": [
+          {
+            "name": "agents_md",
+            "status": "fail",
+            "message": "AGENTS.md not found"
+          },
+          {
+            "name": "ai_plugin",
+            "status": "fail",
+            "message": "ai-plugin.json not found"
+          },
+          {
+            "name": "openapi",
+            "status": "warn",
+            "message": "No OpenAPI spec discoverable"
+          }
+        ]
+      },
+      {
+        "name": "MCP Readiness",
+        "weight": 0.04,
+        "score": 0,
+        "checks": [
+          {
+            "name": "mcp_exists",
+            "status": "fail",
+            "message": ".well-known/mcp.json not found"
+          }
+        ]
+      },
+      {
+        "name": "Sitemap",
+        "weight": 0.03,
+        "score": 0,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "fail",
+            "message": "sitemap.xml not found"
+          }
+        ]
+      },
+      {
+        "name": "Freshness Signals",
+        "weight": 0.12,
+        "score": 30,
+        "checks": [
+          {
+            "name": "last_modified",
+            "status": "fail",
+            "message": "No Last-Modified header — #1 missing freshness signal (absent on 57% of audited sites)"
+          },
+          {
+            "name": "etag",
+            "status": "warn",
+            "message": "No ETag header"
+          },
+          {
+            "name": "date_published",
+            "status": "fail",
+            "message": "No datePublished in schema — AI cannot verify content freshness"
+          },
+          {
+            "name": "date_modified",
+            "status": "warn",
+            "message": "No dateModified in schema — AI prefers recently updated content"
+          },
+          {
+            "name": "og_dates",
+            "status": "warn",
+            "message": "No article:published_time or article:modified_time meta tags"
+          }
+        ]
+      },
+      {
+        "name": "Citability & Evidence",
+        "weight": 0.15,
+        "score": 83,
+        "checks": [
+          {
+            "name": "statistics",
+            "status": "pass",
+            "message": "20 data points found — content with stats gets 30-40% more AI citations"
+          },
+          {
+            "name": "citations",
+            "status": "pass",
+            "message": "30 outbound references — shows research credibility"
+          },
+          {
+            "name": "qa_structure",
+            "status": "warn",
+            "message": "No Q&A structure — FAQ-style content is the single most effective format for AI citations"
+          },
+          {
+            "name": "first_paragraph",
+            "status": "warn",
+            "message": "Opening content is adequate but could include more data — first 200 words matter most for AI"
+          },
+          {
+            "name": "author_info",
+            "status": "pass",
+            "message": "Author information detected (E-E-A-T signal)"
+          },
+          {
+            "name": "content_depth",
+            "status": "pass",
+            "message": "Substantial content depth (1959 words)"
+          }
+        ]
+      },
+      {
+        "name": "Security & Trust",
+        "weight": 0.05,
+        "score": 100,
+        "checks": [
+          {
+            "name": "https",
+            "status": "pass",
+            "message": "HTTPS enabled"
+          },
+          {
+            "name": "security_txt",
+            "status": "pass",
+            "message": "security.txt present"
+          },
+          {
+            "name": "hsts",
+            "status": "pass",
+            "message": "Strict-Transport-Security header present"
+          },
+          {
+            "name": "xcto",
+            "status": "pass",
+            "message": "X-Content-Type-Options header present"
+          }
+        ]
+      },
+      {
+        "name": "Crawlability & Rendering",
+        "weight": 0.1,
+        "score": 80,
+        "checks": [
+          {
+            "name": "js_rendering",
+            "status": "pass",
+            "message": "Next.js with SSR detected — content accessible to AI crawlers",
+            "data": {
+              "framework": "Next.js"
+            }
+          },
+          {
+            "name": "script_ratio",
+            "status": "warn",
+            "message": "Moderate script ratio (37%) — some content may be JS-dependent"
+          },
+          {
+            "name": "noscript",
+            "status": "pass",
+            "message": "<noscript> fallback present"
+          },
+          {
+            "name": "response_time",
+            "status": "warn",
+            "message": "Moderate response time (1521ms) — aim for < 500ms"
+          },
+          {
+            "name": "content_type",
+            "status": "pass",
+            "message": "Correct Content-Type header"
+          }
+        ]
+      }
+    ],
+    "scannedAt": "2026-03-19T18:38:23.511Z"
+  },
+  {
+    "url": "https://stripe.com",
+    "score": 69,
+    "grade": "D+",
+    "summary": "Overall score: 69/100 (D+). Strong: llms.txt, robots.txt AI Bots, Content Readability, Structured Data Depth, Citability & Evidence, Security & Trust, Crawlability & Rendering. Needs work: Agent Protocols, MCP Readiness, Sitemap, Freshness Signals.",
+    "categories": [
+      {
+        "name": "llms.txt",
+        "weight": 0.08,
+        "score": 88,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "pass",
+            "message": "llms.txt exists"
+          },
+          {
+            "name": "format",
+            "status": "pass",
+            "message": "Valid llms.txt format (H1 + blockquote)"
+          },
+          {
+            "name": "has_links",
+            "status": "pass",
+            "message": "Contains 269 link(s)"
+          },
+          {
+            "name": "llms_full",
+            "status": "warn",
+            "message": "No llms-full.txt found (recommended for deep context)"
+          }
+        ]
+      },
+      {
+        "name": "robots.txt AI Bots",
+        "weight": 0.08,
+        "score": 100,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "pass",
+            "message": "robots.txt exists"
+          },
+          {
+            "name": "ai_bots",
+            "status": "pass",
+            "message": "All 14 AI bots allowed"
+          }
+        ]
+      },
+      {
+        "name": "Content Readability",
+        "weight": 0.08,
+        "score": 100,
+        "checks": [
+          {
+            "name": "text_content",
+            "status": "pass",
+            "message": "Substantial text (13323 chars)"
+          },
+          {
+            "name": "meta_tags",
+            "status": "pass",
+            "message": "Meta description and title present"
+          },
+          {
+            "name": "headings",
+            "status": "pass",
+            "message": "Good heading structure (48 headings)"
+          },
+          {
+            "name": "semantic_html",
+            "status": "pass",
+            "message": "Good semantic HTML (5 landmark elements)"
+          },
+          {
+            "name": "lang_attr",
+            "status": "pass",
+            "message": "HTML lang attribute set"
+          }
+        ]
+      },
+      {
+        "name": "Structured Data Depth",
+        "weight": 0.1,
+        "score": 80,
+        "checks": [
+          {
+            "name": "json_ld",
+            "status": "pass",
+            "message": "Found 1 JSON-LD block(s)"
+          },
+          {
+            "name": "schema_types",
+            "status": "pass",
+            "message": "Schema.org types: WebSite, Organization",
+            "data": {
+              "types": [
+                "WebSite",
+                "Organization"
+              ]
+            }
+          },
+          {
+            "name": "citation_types",
+            "status": "warn",
+            "message": "No high-citation types (FAQPage, Article, HowTo, Product) — these get 50% more AI citations"
+          },
+          {
+            "name": "eeat_types",
+            "status": "pass",
+            "message": "E-E-A-T types: Organization"
+          },
+          {
+            "name": "schema_detail",
+            "status": "warn",
+            "message": "Schema lacks author and date properties — reduces AI trust"
+          }
+        ]
+      },
+      {
+        "name": "Agent Protocols",
+        "weight": 0.05,
+        "score": 17,
+        "checks": [
+          {
+            "name": "agents_md",
+            "status": "fail",
+            "message": "AGENTS.md not found"
+          },
+          {
+            "name": "ai_plugin",
+            "status": "fail",
+            "message": "ai-plugin.json not found"
+          },
+          {
+            "name": "openapi",
+            "status": "warn",
+            "message": "No OpenAPI spec discoverable"
+          }
+        ]
+      },
+      {
+        "name": "MCP Readiness",
+        "weight": 0.04,
+        "score": 0,
+        "checks": [
+          {
+            "name": "mcp_exists",
+            "status": "fail",
+            "message": ".well-known/mcp.json not found"
+          }
+        ]
+      },
+      {
+        "name": "Sitemap",
+        "weight": 0.03,
+        "score": 0,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "fail",
+            "message": "sitemap.xml not found"
+          }
+        ]
+      },
+      {
+        "name": "Freshness Signals",
+        "weight": 0.12,
+        "score": 30,
+        "checks": [
+          {
+            "name": "last_modified",
+            "status": "fail",
+            "message": "No Last-Modified header — #1 missing freshness signal (absent on 57% of audited sites)"
+          },
+          {
+            "name": "etag",
+            "status": "warn",
+            "message": "No ETag header"
+          },
+          {
+            "name": "date_published",
+            "status": "fail",
+            "message": "No datePublished in schema — AI cannot verify content freshness"
+          },
+          {
+            "name": "date_modified",
+            "status": "warn",
+            "message": "No dateModified in schema — AI prefers recently updated content"
+          },
+          {
+            "name": "og_dates",
+            "status": "warn",
+            "message": "No article:published_time or article:modified_time meta tags"
+          }
+        ]
+      },
+      {
+        "name": "Citability & Evidence",
+        "weight": 0.15,
+        "score": 83,
+        "checks": [
+          {
+            "name": "statistics",
+            "status": "pass",
+            "message": "20 data points found — content with stats gets 30-40% more AI citations"
+          },
+          {
+            "name": "citations",
+            "status": "pass",
+            "message": "30 outbound references — shows research credibility"
+          },
+          {
+            "name": "qa_structure",
+            "status": "warn",
+            "message": "No Q&A structure — FAQ-style content is the single most effective format for AI citations"
+          },
+          {
+            "name": "first_paragraph",
+            "status": "warn",
+            "message": "Opening content is adequate but could include more data — first 200 words matter most for AI"
+          },
+          {
+            "name": "author_info",
+            "status": "pass",
+            "message": "Author information detected (E-E-A-T signal)"
+          },
+          {
+            "name": "content_depth",
+            "status": "pass",
+            "message": "Substantial content depth (1959 words)"
+          }
+        ]
+      },
+      {
+        "name": "Security & Trust",
+        "weight": 0.05,
+        "score": 100,
+        "checks": [
+          {
+            "name": "https",
+            "status": "pass",
+            "message": "HTTPS enabled"
+          },
+          {
+            "name": "security_txt",
+            "status": "pass",
+            "message": "security.txt present"
+          },
+          {
+            "name": "hsts",
+            "status": "pass",
+            "message": "Strict-Transport-Security header present"
+          },
+          {
+            "name": "xcto",
+            "status": "pass",
+            "message": "X-Content-Type-Options header present"
+          }
+        ]
+      },
+      {
+        "name": "Crawlability & Rendering",
+        "weight": 0.1,
+        "score": 80,
+        "checks": [
+          {
+            "name": "js_rendering",
+            "status": "pass",
+            "message": "Next.js with SSR detected — content accessible to AI crawlers",
+            "data": {
+              "framework": "Next.js"
+            }
+          },
+          {
+            "name": "script_ratio",
+            "status": "warn",
+            "message": "Moderate script ratio (37%) — some content may be JS-dependent"
+          },
+          {
+            "name": "noscript",
+            "status": "pass",
+            "message": "<noscript> fallback present"
+          },
+          {
+            "name": "response_time",
+            "status": "warn",
+            "message": "Moderate response time (1801ms) — aim for < 500ms"
+          },
+          {
+            "name": "content_type",
+            "status": "pass",
+            "message": "Correct Content-Type header"
+          }
+        ]
+      }
+    ],
+    "scannedAt": "2026-03-19T18:40:25.263Z"
+  },
+  {
+    "url": "https://stripe.com",
+    "score": 76,
+    "grade": "C",
+    "summary": "Overall score: 76/100 (C). Strong: llms.txt, robots.txt AI Bots, Content Readability, Structured Data Depth, Sitemap, Citability & Evidence, Security & Trust, Crawlability & Rendering. Needs work: Agent Protocols, Freshness Signals.",
+    "categories": [
+      {
+        "name": "llms.txt",
+        "weight": 0.08,
+        "score": 88,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "pass",
+            "message": "llms.txt exists"
+          },
+          {
+            "name": "format",
+            "status": "pass",
+            "message": "Valid llms.txt format (H1 + blockquote)"
+          },
+          {
+            "name": "has_links",
+            "status": "pass",
+            "message": "Contains 269 link(s)"
+          },
+          {
+            "name": "llms_full",
+            "status": "warn",
+            "message": "No llms-full.txt found (recommended for deep context)"
+          }
+        ]
+      },
+      {
+        "name": "robots.txt AI Bots",
+        "weight": 0.08,
+        "score": 100,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "pass",
+            "message": "robots.txt exists"
+          },
+          {
+            "name": "ai_bots",
+            "status": "pass",
+            "message": "All 14 AI bots allowed"
+          }
+        ]
+      },
+      {
+        "name": "Content Readability",
+        "weight": 0.08,
+        "score": 100,
+        "checks": [
+          {
+            "name": "text_content",
+            "status": "pass",
+            "message": "Substantial text (13323 chars)"
+          },
+          {
+            "name": "meta_tags",
+            "status": "pass",
+            "message": "Meta description and title present"
+          },
+          {
+            "name": "headings",
+            "status": "pass",
+            "message": "Good heading structure (48 headings)"
+          },
+          {
+            "name": "semantic_html",
+            "status": "pass",
+            "message": "Good semantic HTML (5 landmark elements)"
+          },
+          {
+            "name": "lang_attr",
+            "status": "pass",
+            "message": "HTML lang attribute set"
+          }
+        ]
+      },
+      {
+        "name": "Structured Data Depth",
+        "weight": 0.1,
+        "score": 80,
+        "checks": [
+          {
+            "name": "json_ld",
+            "status": "pass",
+            "message": "Found 1 JSON-LD block(s)"
+          },
+          {
+            "name": "schema_types",
+            "status": "pass",
+            "message": "Schema.org types: WebSite, Organization",
+            "data": {
+              "types": [
+                "WebSite",
+                "Organization"
+              ]
+            }
+          },
+          {
+            "name": "citation_types",
+            "status": "warn",
+            "message": "No high-citation types (FAQPage, Article, HowTo, Product) — these get 50% more AI citations"
+          },
+          {
+            "name": "eeat_types",
+            "status": "pass",
+            "message": "E-E-A-T types: Organization"
+          },
+          {
+            "name": "schema_detail",
+            "status": "warn",
+            "message": "Schema lacks author and date properties — reduces AI trust"
+          }
+        ]
+      },
+      {
+        "name": "Agent Protocols",
+        "weight": 0.05,
+        "score": 17,
+        "checks": [
+          {
+            "name": "agents_md",
+            "status": "fail",
+            "message": "AGENTS.md not found"
+          },
+          {
+            "name": "ai_plugin",
+            "status": "fail",
+            "message": "ai-plugin.json not found"
+          },
+          {
+            "name": "openapi",
+            "status": "warn",
+            "message": "No OpenAPI spec discoverable"
+          }
+        ]
+      },
+      {
+        "name": "MCP Readiness",
+        "weight": 0.04,
+        "score": 50,
+        "checks": [
+          {
+            "name": "mcp_exists",
+            "status": "warn",
+            "message": ".well-known/mcp.json not found, but MCP is referenced in site content — consider adding a discoverable manifest"
+          }
+        ]
+      },
+      {
+        "name": "Sitemap",
+        "weight": 0.03,
+        "score": 100,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "pass",
+            "message": "Sitemap found via robots.txt: https://stripe.com/sitemap/sitemap.xml"
+          },
+          {
+            "name": "valid_xml",
+            "status": "pass",
+            "message": "Valid sitemap structure"
+          },
+          {
+            "name": "has_urls",
+            "status": "pass",
+            "message": "Contains 7 URL(s)"
+          }
+        ]
+      },
+      {
+        "name": "Freshness Signals",
+        "weight": 0.12,
+        "score": 40,
+        "checks": [
+          {
+            "name": "last_modified",
+            "status": "fail",
+            "message": "No Last-Modified header — #1 missing freshness signal (absent on 57% of audited sites)"
+          },
+          {
+            "name": "etag",
+            "status": "warn",
+            "message": "No ETag header"
+          },
+          {
+            "name": "date_published",
+            "status": "warn",
+            "message": "No datePublished in schema — helps AI assess content freshness"
+          },
+          {
+            "name": "date_modified",
+            "status": "warn",
+            "message": "No dateModified in schema — AI prefers recently updated content"
+          },
+          {
+            "name": "og_dates",
+            "status": "warn",
+            "message": "No article:published_time or article:modified_time meta tags"
+          }
+        ]
+      },
+      {
+        "name": "Citability & Evidence",
+        "weight": 0.15,
+        "score": 83,
+        "checks": [
+          {
+            "name": "statistics",
+            "status": "pass",
+            "message": "20 data points found — content with stats gets 30-40% more AI citations"
+          },
+          {
+            "name": "citations",
+            "status": "pass",
+            "message": "30 outbound references — shows research credibility"
+          },
+          {
+            "name": "qa_structure",
+            "status": "warn",
+            "message": "No Q&A structure — FAQ-style content is the single most effective format for AI citations"
+          },
+          {
+            "name": "first_paragraph",
+            "status": "warn",
+            "message": "Opening content is adequate but could include more data — first 200 words matter most for AI"
+          },
+          {
+            "name": "author_info",
+            "status": "pass",
+            "message": "Author information detected (E-E-A-T signal)"
+          },
+          {
+            "name": "content_depth",
+            "status": "pass",
+            "message": "Substantial content depth (1959 words)"
+          }
+        ]
+      },
+      {
+        "name": "Security & Trust",
+        "weight": 0.05,
+        "score": 100,
+        "checks": [
+          {
+            "name": "https",
+            "status": "pass",
+            "message": "HTTPS enabled"
+          },
+          {
+            "name": "security_txt",
+            "status": "pass",
+            "message": "security.txt present"
+          },
+          {
+            "name": "hsts",
+            "status": "pass",
+            "message": "Strict-Transport-Security header present"
+          },
+          {
+            "name": "xcto",
+            "status": "pass",
+            "message": "X-Content-Type-Options header present"
+          }
+        ]
+      },
+      {
+        "name": "Crawlability & Rendering",
+        "weight": 0.1,
+        "score": 80,
+        "checks": [
+          {
+            "name": "js_rendering",
+            "status": "pass",
+            "message": "Next.js with SSR detected — content accessible to AI crawlers",
+            "data": {
+              "framework": "Next.js"
+            }
+          },
+          {
+            "name": "script_ratio",
+            "status": "warn",
+            "message": "Moderate script ratio (37%) — some content may be JS-dependent"
+          },
+          {
+            "name": "noscript",
+            "status": "pass",
+            "message": "<noscript> fallback present"
+          },
+          {
+            "name": "response_time",
+            "status": "warn",
+            "message": "Moderate response time (1523ms) — aim for < 500ms"
+          },
+          {
+            "name": "content_type",
+            "status": "pass",
+            "message": "Correct Content-Type header"
+          }
+        ]
+      }
+    ],
+    "scannedAt": "2026-03-19T18:47:12.548Z"
+  }
+]

@@ -1,0 +1,286 @@
+[
+  {
+    "url": "https://vercel.com",
+    "score": 60,
+    "grade": "D-",
+    "summary": "Overall score: 60/100 (D-). Strong: llms.txt, robots.txt AI Bots, Content Readability, Sitemap, Security & Trust. Needs work: Structured Data Depth, MCP Readiness, Freshness Signals.",
+    "categories": [
+      {
+        "name": "llms.txt",
+        "weight": 0.08,
+        "score": 88,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "pass",
+            "message": "llms.txt exists"
+          },
+          {
+            "name": "format",
+            "status": "warn",
+            "message": "Partial format (missing blockquote description)"
+          },
+          {
+            "name": "has_links",
+            "status": "pass",
+            "message": "Contains 1652 link(s)"
+          },
+          {
+            "name": "llms_full",
+            "status": "pass",
+            "message": "llms-full.txt also available (comprehensive version)"
+          }
+        ]
+      },
+      {
+        "name": "robots.txt AI Bots",
+        "weight": 0.08,
+        "score": 100,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "pass",
+            "message": "robots.txt exists"
+          },
+          {
+            "name": "ai_bots",
+            "status": "pass",
+            "message": "All 14 AI bots allowed"
+          }
+        ]
+      },
+      {
+        "name": "Content Readability",
+        "weight": 0.08,
+        "score": 100,
+        "checks": [
+          {
+            "name": "text_content",
+            "status": "pass",
+            "message": "Substantial text (4548 chars)"
+          },
+          {
+            "name": "meta_tags",
+            "status": "pass",
+            "message": "Meta description and title present"
+          },
+          {
+            "name": "headings",
+            "status": "pass",
+            "message": "Good heading structure (24 headings)"
+          },
+          {
+            "name": "semantic_html",
+            "status": "pass",
+            "message": "Good semantic HTML (5 landmark elements)"
+          },
+          {
+            "name": "lang_attr",
+            "status": "pass",
+            "message": "HTML lang attribute set"
+          }
+        ]
+      },
+      {
+        "name": "Structured Data Depth",
+        "weight": 0.1,
+        "score": 0,
+        "checks": [
+          {
+            "name": "json_ld",
+            "status": "fail",
+            "message": "No JSON-LD structured data found"
+          }
+        ]
+      },
+      {
+        "name": "Agent Protocols",
+        "weight": 0.05,
+        "score": 50,
+        "checks": [
+          {
+            "name": "agents_md",
+            "status": "pass",
+            "message": "AGENTS.md exists"
+          },
+          {
+            "name": "ai_plugin",
+            "status": "fail",
+            "message": "ai-plugin.json not found"
+          },
+          {
+            "name": "openapi",
+            "status": "warn",
+            "message": "No OpenAPI spec discoverable"
+          }
+        ]
+      },
+      {
+        "name": "MCP Readiness",
+        "weight": 0.04,
+        "score": 0,
+        "checks": [
+          {
+            "name": "mcp_exists",
+            "status": "fail",
+            "message": ".well-known/mcp.json not found"
+          }
+        ]
+      },
+      {
+        "name": "Sitemap",
+        "weight": 0.03,
+        "score": 100,
+        "checks": [
+          {
+            "name": "exists",
+            "status": "pass",
+            "message": "sitemap.xml exists"
+          },
+          {
+            "name": "valid_xml",
+            "status": "pass",
+            "message": "Valid sitemap structure"
+          },
+          {
+            "name": "has_urls",
+            "status": "pass",
+            "message": "Contains 4946 URL(s)"
+          }
+        ]
+      },
+      {
+        "name": "Freshness Signals",
+        "weight": 0.12,
+        "score": 40,
+        "checks": [
+          {
+            "name": "last_modified",
+            "status": "fail",
+            "message": "No Last-Modified header — #1 missing freshness signal (absent on 57% of audited sites)"
+          },
+          {
+            "name": "etag",
+            "status": "pass",
+            "message": "ETag header present (server tracks content changes)"
+          },
+          {
+            "name": "date_published",
+            "status": "fail",
+            "message": "No datePublished in schema — AI cannot verify content freshness"
+          },
+          {
+            "name": "date_modified",
+            "status": "warn",
+            "message": "No dateModified in schema — AI prefers recently updated content"
+          },
+          {
+            "name": "og_dates",
+            "status": "warn",
+            "message": "No article:published_time or article:modified_time meta tags"
+          }
+        ]
+      },
+      {
+        "name": "Citability & Evidence",
+        "weight": 0.15,
+        "score": 58,
+        "checks": [
+          {
+            "name": "statistics",
+            "status": "fail",
+            "message": "No statistics or data points — content with stats gets 30-40% more AI citations"
+          },
+          {
+            "name": "citations",
+            "status": "pass",
+            "message": "22 outbound references — shows research credibility"
+          },
+          {
+            "name": "qa_structure",
+            "status": "warn",
+            "message": "No Q&A structure — FAQ-style content is the single most effective format for AI citations"
+          },
+          {
+            "name": "first_paragraph",
+            "status": "pass",
+            "message": "Opening content is direct and data-rich — AI retrieval scores opening content heaviest"
+          },
+          {
+            "name": "author_info",
+            "status": "warn",
+            "message": "No author information — AI values E-E-A-T signals for trust and citability"
+          },
+          {
+            "name": "content_depth",
+            "status": "warn",
+            "message": "Moderate content depth (668 words) — comprehensive content ranks higher in AI"
+          }
+        ]
+      },
+      {
+        "name": "Security & Trust",
+        "weight": 0.05,
+        "score": 100,
+        "checks": [
+          {
+            "name": "https",
+            "status": "pass",
+            "message": "HTTPS enabled"
+          },
+          {
+            "name": "security_txt",
+            "status": "pass",
+            "message": "security.txt present"
+          },
+          {
+            "name": "hsts",
+            "status": "pass",
+            "message": "Strict-Transport-Security header present"
+          },
+          {
+            "name": "xcto",
+            "status": "pass",
+            "message": "X-Content-Type-Options header present"
+          }
+        ]
+      },
+      {
+        "name": "Crawlability & Rendering",
+        "weight": 0.1,
+        "score": 60,
+        "checks": [
+          {
+            "name": "js_rendering",
+            "status": "warn",
+            "message": "Next.js detected — verify SSR is enabled for AI crawler access",
+            "data": {
+              "framework": "Next.js"
+            }
+          },
+          {
+            "name": "script_ratio",
+            "status": "warn",
+            "message": "Moderate script ratio (53%) — some content may be JS-dependent"
+          },
+          {
+            "name": "noscript",
+            "status": "warn",
+            "message": "No <noscript> fallback — provide content for non-JS crawlers"
+          },
+          {
+            "name": "response_time",
+            "status": "warn",
+            "message": "Moderate response time (616ms) — aim for < 500ms"
+          },
+          {
+            "name": "content_type",
+            "status": "pass",
+            "message": "Correct Content-Type header"
+          }
+        ]
+      }
+    ],
+    "scannedAt": "2026-03-19T18:40:25.523Z"
+  }
+]
