@@ -9,6 +9,7 @@ import { buildScanResult, buildCompareResult } from './scoring'
 import { generateBoostReport } from './boost'
 import { saveResult, getHistory, listMonitored } from './monitor'
 import { normalizeUrl } from './utils'
+import { generatePOV } from './pov'
 import landingHtml from './landing.html' with { type: 'text' }
 
 // ── USDC on Tempo ─────────────────────────────────────────────────────
@@ -46,7 +47,7 @@ app.use('*', cors())
 // ── GET /ui — Landing Page ────────────────────────────────────────────
 
 app.get('/ui', (c) => {
-  return c.html(landingHtml)
+  return c.html(landingHtml as unknown as string)
 })
 
 // ── GET / — Free Discovery ────────────────────────────────────────────
@@ -82,6 +83,12 @@ app.get('/', (c) => {
         price: '$0.30',
         input: '{ "url": "https://example.com", "scan_result?": {...} }',
         output: 'Prioritized fixes + generated llms.txt, robots.txt, AGENTS.md, security.txt',
+      },
+      'POST /pov': {
+        description: "Agent's Eye View — what an AI agent sees, knows, and can do with your site",
+        price: '$0.20',
+        input: '{ "url?": "https://example.com", "brand?": "Stripe" }',
+        output: 'Identity, AI knowledge accuracy check, discoverable actions, content extract, permissions, recommendations',
       },
       'GET /monitor': {
         description: 'Retrieve scan history & score trend for a URL (free)',
@@ -297,6 +304,37 @@ app.post('/boost', async (c) => {
     const boostResult = await generateBoostReport(baseUrl, scanResult)
 
     return result.withReceipt(Response.json(boostResult))
+  } catch (error: any) {
+    return Response.json({ error: error.message || 'Internal server error' }, { status: 500 })
+  }
+})
+
+// ── POST /pov — Agent's Eye View ($0.20) ──────────────────────────────
+
+app.post('/pov', async (c) => {
+  try {
+    const mppReq = c.req.raw.clone() as unknown as Request
+    const body = await c.req.json<{ url?: string; brand?: string }>()
+
+    if (!body.url && !body.brand) {
+      return c.json({ error: 'Provide "url" and/or "brand" field' }, 400)
+    }
+
+    const result = await mppx.charge({ amount: '0.20' })(mppReq)
+    if (result.status === 402) return result.challenge
+
+    let baseUrl: string | undefined
+    if (body.url) {
+      try {
+        baseUrl = normalizeUrl(body.url)
+      } catch (e: any) {
+        return result.withReceipt(Response.json({ error: e.message }, { status: 400 }))
+      }
+    }
+
+    const pov = await generatePOV(baseUrl, body.brand)
+
+    return result.withReceipt(Response.json(pov))
   } catch (error: any) {
     return Response.json({ error: error.message || 'Internal server error' }, { status: 500 })
   }
