@@ -10,6 +10,9 @@ import { generateBoostReport } from './boost'
 import { saveResult, getHistory, listMonitored } from './monitor'
 import { normalizeUrl } from './utils'
 import { generatePOV } from './pov'
+import { runHallcheck } from './hallcheck'
+import { discoverAndTestPrompts } from './prompts'
+import { mapSources } from './sources'
 import landingHtml from './landing.html' with { type: 'text' }
 
 // ── USDC on Tempo ─────────────────────────────────────────────────────
@@ -67,10 +70,10 @@ app.get('/', (c) => {
         price: '$0.00',
       },
       'POST /scan': {
-        description: 'Full 12-category AI findability & citability audit',
+        description: 'Full 13-category AI findability & citability audit',
         price: '$0.10 (or $0.15 with AI citation test)',
         input: '{ "url": "https://example.com", "citation?": true }',
-        output: '0-100 score, letter grade, 11-12 category breakdowns, citability analysis',
+        output: '0-100 score, letter grade, 12-13 category breakdowns, citability analysis',
       },
       'POST /compare': {
         description: 'Benchmark up to 5 URLs with competitive insights',
@@ -89,6 +92,24 @@ app.get('/', (c) => {
         price: '$0.20',
         input: '{ "url?": "https://example.com", "brand?": "Stripe" }',
         output: 'Identity, AI knowledge accuracy check, discoverable actions, content extract, permissions, recommendations',
+      },
+      'POST /hallcheck': {
+        description: 'Hallucination detector — compares website ground truth vs AI perception',
+        price: '$0.25',
+        input: '{ "url?": "https://example.com", "brand?": "Stripe" }',
+        output: 'Ground truth, AI perception, hallucinations with severity, risk level, verified facts, recommendations',
+      },
+      'POST /prompts': {
+        description: 'Prompt discovery & batch testing — find where AI mentions (or ignores) your brand',
+        price: '$0.15',
+        input: '{ "url?": "https://example.com", "brand?": "Stripe", "industry?": "payments" }',
+        output: 'Tested prompts with mention/sentiment, visibility score, category breakdown, blind spots',
+      },
+      'POST /sources': {
+        description: 'External citation source mapping — where AI learns about your brand',
+        price: '$0.20',
+        input: '{ "url?": "https://example.com", "brand?": "Stripe" }',
+        output: 'Source map (Reddit, Wikipedia, news, reviews), top influencers, citation gaps, recommendations',
       },
       'GET /monitor': {
         description: 'Retrieve scan history & score trend for a URL (free)',
@@ -109,6 +130,7 @@ app.get('/', (c) => {
       'Citability & Evidence (15%)',
       'Security & Trust (5%)',
       'Crawlability & Rendering (10%)',
+      'External Citation Signals (8%) — Reddit, Wikipedia, review site presence',
       'AI Citation Reality (12%) — optional, live AI query test',
     ],
     researchBacked: [
@@ -131,16 +153,20 @@ app.get('/', (c) => {
 app.get('/llms.txt', (c) => {
   return c.text(`# AgentFindable
 
-> AI Agent Findability & Citability Audit API. Analyzes websites across 12 categories including freshness signals, citability evidence, JS rendering, and live AI citation testing. Powered by MPP micropayments.
+> AI Agent Findability & Citability Audit API. Analyzes websites across 13 categories including freshness signals, citability evidence, external citation signals, JS rendering, and live AI citation testing. Powered by MPP micropayments.
 
 ## Endpoints
 
-- [POST /scan]: Full 12-category findability audit ($0.10 via MPP, $0.15 with citation test)
+- [POST /scan]: Full 13-category findability audit ($0.10 via MPP, $0.15 with citation test)
 - [POST /compare]: Benchmark up to 5 competitors ($0.50 via MPP)
 - [POST /boost]: AI-generated fix guide with ready-to-deploy files ($0.30 via MPP)
+- [POST /pov]: Agent's Eye View — what AI sees, knows, and can do with your site ($0.20 via MPP)
+- [POST /hallcheck]: Hallucination detector — ground truth vs AI perception ($0.25 via MPP)
+- [POST /prompts]: Prompt discovery & batch testing — find where AI mentions your brand ($0.15 via MPP)
+- [POST /sources]: External citation source mapping — where AI learns about you ($0.20 via MPP)
 - [GET /monitor?url=...]: Track score history and trends (free)
 
-## Categories Analyzed (12)
+## Categories Analyzed (13)
 
 - llms.txt presence, format, and llms-full.txt availability
 - robots.txt AI bot permissions (14 bots checked)
@@ -153,11 +179,12 @@ app.get('/llms.txt', (c) => {
 - Citability & evidence: statistics, outbound references, Q&A structure, content depth
 - Security & trust: HTTPS, security.txt, HSTS, security headers
 - Crawlability & rendering: JS framework detection, SSR verification, response time
+- External citation signals: Reddit, Wikipedia, review site presence and sentiment
 - AI citation reality: live test of whether AI systems mention your brand
 
 ## Research-Backed Scoring
 
-Scoring weights are based on 200+ AI search audits and academic GEO research.
+Scoring weights are based on 200+ AI search audits and academic GEO research. 35% of brands report hallucination damage. Reddit drives 46.7% of Perplexity citations. 82% of AI invisibility stems from weak external mentions.
 
 ## API Usage
 
@@ -340,6 +367,99 @@ app.post('/pov', async (c) => {
   }
 })
 
+// ── POST /hallcheck — Hallucination Detector ($0.25) ─────────────────
+
+app.post('/hallcheck', async (c) => {
+  try {
+    const mppReq = c.req.raw.clone() as unknown as Request
+    const body = await c.req.json<{ url?: string; brand?: string }>()
+
+    if (!body.url && !body.brand) {
+      return c.json({ error: 'Provide "url" and/or "brand" field' }, 400)
+    }
+
+    const result = await mppx.charge({ amount: '0.25' })(mppReq)
+    if (result.status === 402) return result.challenge
+
+    let baseUrl: string | undefined
+    if (body.url) {
+      try {
+        baseUrl = normalizeUrl(body.url)
+      } catch (e: any) {
+        return result.withReceipt(Response.json({ error: e.message }, { status: 400 }))
+      }
+    }
+
+    const hallcheckResult = await runHallcheck(baseUrl, body.brand)
+
+    return result.withReceipt(Response.json(hallcheckResult))
+  } catch (error: any) {
+    return Response.json({ error: error.message || 'Internal server error' }, { status: 500 })
+  }
+})
+
+// ── POST /prompts — Prompt Discovery & Batch Testing ($0.15) ─────────
+
+app.post('/prompts', async (c) => {
+  try {
+    const mppReq = c.req.raw.clone() as unknown as Request
+    const body = await c.req.json<{ url?: string; brand?: string; industry?: string }>()
+
+    if (!body.url && !body.brand) {
+      return c.json({ error: 'Provide "url" and/or "brand" field' }, 400)
+    }
+
+    const result = await mppx.charge({ amount: '0.15' })(mppReq)
+    if (result.status === 402) return result.challenge
+
+    let baseUrl: string | undefined
+    if (body.url) {
+      try {
+        baseUrl = normalizeUrl(body.url)
+      } catch (e: any) {
+        return result.withReceipt(Response.json({ error: e.message }, { status: 400 }))
+      }
+    }
+
+    const promptsResult = await discoverAndTestPrompts(baseUrl, body.brand, body.industry)
+
+    return result.withReceipt(Response.json(promptsResult))
+  } catch (error: any) {
+    return Response.json({ error: error.message || 'Internal server error' }, { status: 500 })
+  }
+})
+
+// ── POST /sources — External Citation Source Mapping ($0.20) ─────────
+
+app.post('/sources', async (c) => {
+  try {
+    const mppReq = c.req.raw.clone() as unknown as Request
+    const body = await c.req.json<{ url?: string; brand?: string }>()
+
+    if (!body.url && !body.brand) {
+      return c.json({ error: 'Provide "url" and/or "brand" field' }, 400)
+    }
+
+    const result = await mppx.charge({ amount: '0.20' })(mppReq)
+    if (result.status === 402) return result.challenge
+
+    let baseUrl: string | undefined
+    if (body.url) {
+      try {
+        baseUrl = normalizeUrl(body.url)
+      } catch (e: any) {
+        return result.withReceipt(Response.json({ error: e.message }, { status: 400 }))
+      }
+    }
+
+    const sourcesResult = await mapSources(baseUrl, body.brand)
+
+    return result.withReceipt(Response.json(sourcesResult))
+  } catch (error: any) {
+    return Response.json({ error: error.message || 'Internal server error' }, { status: 500 })
+  }
+})
+
 // ── GET /monitor — Score History & Trend (free) ───────────────────────
 
 app.get('/monitor', async (c) => {
@@ -376,7 +496,11 @@ export default {
 console.log(`AgentFindable v2 running on http://localhost:${port}`)
 console.log(`  GET  /           — Service discovery (free)`)
 console.log(`  GET  /llms.txt   — Our llms.txt (free)`)
-console.log(`  POST /scan       — 12-category audit ($0.10 / $0.15 with citation)`)
+console.log(`  POST /scan       — 13-category audit ($0.10 / $0.15 with citation)`)
 console.log(`  POST /compare    — Competitive benchmark ($0.50, up to 5 URLs)`)
 console.log(`  POST /boost      — AI fix guide ($0.30)`)
+console.log(`  POST /pov        — Agent's Eye View ($0.20)`)
+console.log(`  POST /hallcheck  — Hallucination detector ($0.25)`)
+console.log(`  POST /prompts    — Prompt discovery & testing ($0.15)`)
+console.log(`  POST /sources    — External citation mapping ($0.20)`)
 console.log(`  GET  /monitor    — Score history & trend (free)`)

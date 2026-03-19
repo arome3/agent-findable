@@ -9,7 +9,10 @@ import {
   detectFramework,
   analyzeEvidence,
   fetchAllData,
+  extractBrandName,
 } from './utils'
+
+const ANTHROPIC_BASE = process.env.ANTHROPIC_MPP_URL || 'https://api.anthropic.com'
 
 const AI_BOTS = [
   'GPTBot', 'OAI-SearchBot', 'ChatGPT-User',
@@ -642,6 +645,96 @@ export function checkCrawlabilityRendering(data: FetchedData): CategoryResult {
   return { name: 'Crawlability & Rendering', weight: 0.10, score: catScore(checks), checks }
 }
 
+// ── 12. External Citation Signals (8%) ───────────────────────────────
+
+export async function checkExternalCitation(
+  brandName: string,
+  domain: string,
+): Promise<CategoryResult> {
+  const checks: CheckDetail[] = []
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    'anthropic-version': '2023-06-01',
+  }
+  if (process.env.ANTHROPIC_API_KEY) {
+    headers['x-api-key'] = process.env.ANTHROPIC_API_KEY
+  }
+
+  try {
+    const res = await fetch(`${ANTHROPIC_BASE}/v1/messages`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 600,
+        messages: [{
+          role: 'user',
+          content: `Assess the external citation presence for "${brandName}" (${domain}) across these 4 categories. For each, answer true/false with brief evidence.\n\n1. Reddit presence: Is ${brandName} actively discussed on Reddit?\n2. Reddit sentiment: If present, is sentiment generally positive?\n3. Wikipedia: Does ${brandName} have a Wikipedia page or significant Wikipedia mentions?\n4. Review sites: Is ${brandName} listed on major review/comparison sites (G2, Capterra, TrustPilot, etc.)?\n\nReturn JSON: { "reddit_presence": { "present": true, "detail": "..." }, "reddit_sentiment": { "positive": true, "detail": "..." }, "wikipedia": { "present": true, "detail": "..." }, "review_sites": { "present": true, "detail": "..." } }. Return ONLY valid JSON.`,
+        }],
+      }),
+    })
+
+    if (!res.ok) {
+      checks.push(chk('external_citation', 'warn', `Could not assess external citations (API: ${res.status})`))
+      return { name: 'External Citation Signals', weight: 0.08, score: catScore(checks), checks }
+    }
+
+    const data = (await res.json()) as any
+    let text: string = data.content?.[0]?.text || '{}'
+    let jsonStr = text.trim()
+    if (jsonStr.startsWith('```')) jsonStr = jsonStr.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '')
+    const parsed = JSON.parse(jsonStr)
+
+    // Reddit presence
+    if (parsed.reddit_presence?.present) {
+      checks.push(chk('reddit_presence', 'pass',
+        `${brandName} is discussed on Reddit — Reddit drives 46.7% of Perplexity citations`,
+        { detail: parsed.reddit_presence.detail }))
+    } else {
+      checks.push(chk('reddit_presence', 'fail',
+        `${brandName} has little/no Reddit presence — Reddit drives 46.7% of AI search citations`,
+        { detail: parsed.reddit_presence?.detail }))
+    }
+
+    // Reddit sentiment
+    if (parsed.reddit_sentiment?.positive) {
+      checks.push(chk('reddit_sentiment', 'pass',
+        `Reddit sentiment is generally positive for ${brandName}`,
+        { detail: parsed.reddit_sentiment.detail }))
+    } else if (parsed.reddit_presence?.present) {
+      checks.push(chk('reddit_sentiment', 'warn',
+        `Reddit sentiment for ${brandName} is neutral or negative — AI reflects community sentiment`,
+        { detail: parsed.reddit_sentiment?.detail }))
+    }
+
+    // Wikipedia
+    if (parsed.wikipedia?.present) {
+      checks.push(chk('wikipedia', 'pass',
+        `${brandName} has Wikipedia presence — a key authority signal for AI systems`,
+        { detail: parsed.wikipedia.detail }))
+    } else {
+      checks.push(chk('wikipedia', 'fail',
+        `No Wikipedia presence for ${brandName} — Wikipedia is a top AI training source`,
+        { detail: parsed.wikipedia?.detail }))
+    }
+
+    // Review sites
+    if (parsed.review_sites?.present) {
+      checks.push(chk('review_sites', 'pass',
+        `${brandName} is listed on review/comparison sites`,
+        { detail: parsed.review_sites.detail }))
+    } else {
+      checks.push(chk('review_sites', 'fail',
+        `${brandName} not found on major review sites — 82% of AI invisibility stems from weak external mentions`,
+        { detail: parsed.review_sites?.detail }))
+    }
+  } catch (err: any) {
+    checks.push(chk('external_citation', 'warn', `External citation check error: ${err.message}`))
+  }
+
+  return { name: 'External Citation Signals', weight: 0.08, score: catScore(checks), checks }
+}
+
 // ── Orchestrator ──────────────────────────────────────────────────────
 
 export async function runAllChecks(url: string): Promise<{
@@ -649,8 +742,14 @@ export async function runAllChecks(url: string): Promise<{
   fetchedData: FetchedData
 }> {
   const data = await fetchAllData(url)
+  const domain = new URL(data.baseUrl).hostname
+  const brandName = extractBrandName(data.mainPage.body, domain)
 
-  const sitemapResult = await checkSitemap(data.sitemap, data.robotsTxt, data.baseUrl)
+  // Run async checks in parallel
+  const [sitemapResult, externalCitationResult] = await Promise.all([
+    checkSitemap(data.sitemap, data.robotsTxt, data.baseUrl),
+    checkExternalCitation(brandName, domain),
+  ])
 
   const categories = [
     checkLlmsTxt(data),
@@ -664,6 +763,7 @@ export async function runAllChecks(url: string): Promise<{
     checkCitabilityEvidence(data.mainPage.body),
     checkSecurityTrust(data),
     checkCrawlabilityRendering(data),
+    externalCitationResult,
   ]
 
   return { categories, fetchedData: data }

@@ -444,7 +444,7 @@ tempo wallet fund</code></pre>
             <tr>
               <td class="ep-method">POST /scan</td>
               <td class="ep-price">$0.10</td>
-              <td class="ep-desc">12-category findability audit</td>
+              <td class="ep-desc">13-category findability audit</td>
             </tr>
             <tr>
               <td class="ep-method">POST /scan</td>
@@ -455,6 +455,21 @@ tempo wallet fund</code></pre>
               <td class="ep-method">POST /pov</td>
               <td class="ep-price">$0.20</td>
               <td class="ep-desc">Agent's Eye View — what AI sees, knows &amp; can do</td>
+            </tr>
+            <tr>
+              <td class="ep-method">POST /hallcheck</td>
+              <td class="ep-price">$0.25</td>
+              <td class="ep-desc">Hallucination detector — ground truth vs AI</td>
+            </tr>
+            <tr>
+              <td class="ep-method">POST /prompts</td>
+              <td class="ep-price">$0.15</td>
+              <td class="ep-desc">Prompt discovery &amp; batch visibility testing</td>
+            </tr>
+            <tr>
+              <td class="ep-method">POST /sources</td>
+              <td class="ep-price">$0.20</td>
+              <td class="ep-desc">External citation source mapping</td>
             </tr>
             <tr>
               <td class="ep-method">POST /compare</td>
@@ -523,11 +538,137 @@ tempo request -t -X POST \
       </div>
     </section>
 
+    <!-- ── Hallucination Detector ────────────────────────────── -->
+    <section>
+      <div class="card">
+        <h2>Hallucination Detector &mdash; <code>POST /hallcheck</code></h2>
+        <p style="margin-bottom: 16px;">35% of brands report AI hallucination damage. Find out what AI gets wrong about your brand &mdash; before your customers do.</p>
+
+        <div class="categories-grid" style="margin-bottom: 16px;">
+          <div class="category-item">
+            <span class="category-weight" style="color: #f87171;">GT</span>
+            <span class="category-name">Website ground truth extraction</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #f87171;">AI</span>
+            <span class="category-name">AI perception query</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #f87171;">CMP</span>
+            <span class="category-name">Programmatic fact comparison</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #f87171;">SEV</span>
+            <span class="category-name">Severity &amp; type classification</span>
+          </div>
+        </div>
+
+        <p style="font-size: 13px; color: #707070; margin-bottom: 12px;">Uses a hybrid approach: deterministic comparison for structured facts (dates, products, HQ) + AI classification for unstructured discrepancies. No &ldquo;AI judging AI&rdquo; problem.</p>
+
+        <pre><code># Full website hallucination check
+tempo request -t -X POST \
+  --json '{"url":"https://vercel.com"}' \
+  https://lucid-nature-production.up.railway.app/hallcheck
+
+# Brand-only (no URL needed)
+tempo request -t -X POST \
+  --json '{"brand":"Vercel"}' \
+  https://lucid-nature-production.up.railway.app/hallcheck</code></pre>
+      </div>
+    </section>
+
+    <!-- ── Prompt Discovery ──────────────────────────────────── -->
+    <section>
+      <div class="card">
+        <h2>Prompt Discovery &amp; Testing &mdash; <code>POST /prompts</code></h2>
+        <p style="margin-bottom: 16px;">Discover which prompts surface your brand &mdash; and which don't. Tests ~18 prompts across 5 categories using batch testing for efficiency.</p>
+
+        <div class="categories-grid" style="margin-bottom: 16px;">
+          <div class="category-item">
+            <span class="category-weight" style="color: #fbbf24;">BRD</span>
+            <span class="category-name">Brand queries</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #fbbf24;">IND</span>
+            <span class="category-name">Industry queries</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #fbbf24;">CMP</span>
+            <span class="category-name">Comparison queries</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #fbbf24;">REC</span>
+            <span class="category-name">Recommendation queries</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #fbbf24;">SOL</span>
+            <span class="category-name">Problem-solving queries</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #fbbf24;">AI+</span>
+            <span class="category-name">AI-generated creative prompts</span>
+          </div>
+        </div>
+
+        <p style="font-size: 13px; color: #707070; margin-bottom: 12px;">Returns visibility score, mention rate, blind spots (categories with 0% mentions), and strong prompts where your brand shines.</p>
+
+        <pre><code>tempo request -t -X POST \
+  --json '{"url":"https://stripe.com","industry":"payments"}' \
+  https://lucid-nature-production.up.railway.app/prompts</code></pre>
+      </div>
+    </section>
+
+    <!-- ── Source Mapping ─────────────────────────────────────── -->
+    <section>
+      <div class="card">
+        <h2>External Citation Sources &mdash; <code>POST /sources</code></h2>
+        <p style="margin-bottom: 16px;">82% of AI invisibility stems from weak external mentions. Map where AI learns about your brand &mdash; and where you're missing.</p>
+
+        <div class="categories-grid" style="margin-bottom: 16px;">
+          <div class="category-item">
+            <span class="category-weight" style="color: #34d399;">RED</span>
+            <span class="category-name">Reddit (46.7% of AI citations)</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #34d399;">WIK</span>
+            <span class="category-name">Wikipedia presence</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #34d399;">NEWS</span>
+            <span class="category-name">News media coverage</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #34d399;">REV</span>
+            <span class="category-name">Review &amp; comparison sites</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #34d399;">FOR</span>
+            <span class="category-name">Forums &amp; communities</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #34d399;">SOC</span>
+            <span class="category-name">Social media signals</span>
+          </div>
+        </div>
+
+        <p style="font-size: 13px; color: #707070; margin-bottom: 12px;">Identifies named sources per category, sentiment analysis, top influencers on AI perception, and citation gaps with actionable fixes.</p>
+
+        <pre><code>tempo request -t -X POST \
+  --json '{"url":"https://stripe.com"}' \
+  https://lucid-nature-production.up.railway.app/sources
+
+# Brand-only
+tempo request -t -X POST \
+  --json '{"brand":"Stripe"}' \
+  https://lucid-nature-production.up.railway.app/sources</code></pre>
+      </div>
+    </section>
+
     <!-- ── What Gets Audited ────────────────────────────────── -->
     <section>
       <div class="card">
         <h2>What Gets Audited</h2>
-        <p style="margin-bottom: 16px;">Each scan evaluates your site across 12 research-backed categories, weighted by real-world impact on AI agent visibility.</p>
+        <p style="margin-bottom: 16px;">Each scan evaluates your site across 13 research-backed categories, weighted by real-world impact on AI agent visibility.</p>
         <div class="categories-grid">
           <div class="category-item">
             <span class="category-weight">15%</span>
@@ -560,6 +701,10 @@ tempo request -t -X POST \
           <div class="category-item">
             <span class="category-weight">8%</span>
             <span class="category-name">Content Readability</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">8%</span>
+            <span class="category-name">External Citation Signals</span>
           </div>
           <div class="category-item">
             <span class="category-weight">5%</span>
