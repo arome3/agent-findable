@@ -30,6 +30,7 @@ tempo request -t -X POST \
 | `GET /llms.txt` | Free | Our own llms.txt for AI agent discovery |
 | `POST /scan` | $0.10 | Full 12-category findability & citability audit |
 | `POST /scan` | $0.15 | With live AI citation test (`"citation": true`) |
+| `POST /pov` | $0.20 | Agent's Eye View — what AI sees, knows, and can do with your site |
 | `POST /compare` | $0.50 | Benchmark up to 5 competitors side-by-side |
 | `POST /boost` | $0.30 | AI-generated fix guide with ready-to-deploy files |
 | `GET /monitor` | Free | Score history & trend tracking |
@@ -93,6 +94,46 @@ Returns ranked comparison with auto-generated competitive insights:
     "\"Structured Data Depth\" is weak across ALL competitors (avg 27/100) — industry-wide gap",
     "\"MCP Readiness\" is weak across ALL competitors (avg 0/100) — industry-wide gap"
   ]
+}
+```
+
+## Example: Agent's Eye View (POV)
+
+See what an AI agent actually experiences when it encounters your site — or just check what AI knows about your brand.
+
+```bash
+# Full website analysis
+tempo request -t -X POST \
+  --json '{"url":"https://vercel.com"}' \
+  https://lucid-nature-production.up.railway.app/pov
+
+# Brand-only (no URL needed)
+tempo request -t -X POST \
+  --json '{"brand":"OpenAI"}' \
+  https://lucid-nature-production.up.railway.app/pov
+
+# Both (URL crawl + explicit brand name)
+tempo request -t -X POST \
+  --json '{"url":"https://vercel.com","brand":"Vercel"}' \
+  https://lucid-nature-production.up.railway.app/pov
+```
+
+Returns:
+
+```json
+{
+  "identity": { "brandName": "Vercel", "description": "...", "entityType": "...", "keyFacts": {} },
+  "knowledge": {
+    "selfDescription": "Vercel is the AI Cloud...",
+    "aiPerception": "Vercel is a frontend hosting platform...",
+    "accuracyIssues": ["AI describes Vercel as frontend hosting but they've rebranded to 'AI Cloud'"],
+    "knowledgeGaps": ["AI focus", "Agentic workloads", "Agent skills/plugins"]
+  },
+  "actions": { "mcpTools": [], "discoveredCapabilities": ["AGENTS.md with agent-specific instructions"] },
+  "content": { "llmsTxtAvailable": true, "structuredEntities": [...], "wordCount": 668 },
+  "permissions": { "allowedBots": ["GPTBot", "ClaudeBot", ...], "blockedBots": [] },
+  "agentSummary": "I'm an AI agent encountering Vercel. They provide an llms.txt file...",
+  "recommendations": ["Add MCP server manifest", "Add structured data"]
 }
 ```
 

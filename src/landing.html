@@ -452,6 +452,11 @@ tempo wallet fund</code></pre>
               <td class="ep-desc">With live AI citation test</td>
             </tr>
             <tr>
+              <td class="ep-method">POST /pov</td>
+              <td class="ep-price">$0.20</td>
+              <td class="ep-desc">Agent's Eye View — what AI sees, knows &amp; can do</td>
+            </tr>
+            <tr>
               <td class="ep-method">POST /compare</td>
               <td class="ep-price">$0.50</td>
               <td class="ep-desc">Benchmark up to 5 competitors</td>
@@ -468,6 +473,53 @@ tempo wallet fund</code></pre>
             </tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <!-- ── Agent's Eye View ─────────────────────────────────── -->
+    <section>
+      <div class="card">
+        <h2>Agent's Eye View &mdash; <code>POST /pov</code></h2>
+        <p style="margin-bottom: 16px;">See exactly what an AI agent experiences when it encounters your website. Or just check what AI knows about your brand &mdash; no URL required.</p>
+
+        <div class="categories-grid" style="margin-bottom: 16px;">
+          <div class="category-item">
+            <span class="category-weight" style="color: #8b9cf7;">ID</span>
+            <span class="category-name">Identity &amp; entity extraction</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #8b9cf7;">AI</span>
+            <span class="category-name">Knowledge accuracy check</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #8b9cf7;">ACT</span>
+            <span class="category-name">Discoverable actions &amp; tools</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #8b9cf7;">TXT</span>
+            <span class="category-name">Extractable content &amp; entities</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #8b9cf7;">OK</span>
+            <span class="category-name">Permissions &amp; restrictions</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight" style="color: #8b9cf7;">FIX</span>
+            <span class="category-name">Agent-perspective recommendations</span>
+          </div>
+        </div>
+
+        <p style="font-size: 13px; color: #707070; margin-bottom: 12px;">Compares what your site says about itself vs. what AI <em>thinks</em> about your brand &mdash; and flags every discrepancy.</p>
+
+        <pre><code># Full website analysis
+tempo request -t -X POST \
+  --json '{"url":"https://example.com"}' \
+  https://lucid-nature-production.up.railway.app/pov
+
+# Brand-only (no URL needed)
+tempo request -t -X POST \
+  --json '{"brand":"OpenAI"}' \
+  https://lucid-nature-production.up.railway.app/pov</code></pre>
       </div>
     </section>
 
