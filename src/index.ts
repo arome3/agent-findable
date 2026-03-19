@@ -9,6 +9,7 @@ import { buildScanResult, buildCompareResult } from './scoring'
 import { generateBoostReport } from './boost'
 import { saveResult, getHistory, listMonitored } from './monitor'
 import { normalizeUrl } from './utils'
+import landingHtml from './landing.html' with { type: 'text' }
 
 // ── USDC on Tempo ─────────────────────────────────────────────────────
 const USDC = '0x20c000000000000000000000b9537d11c60e8b50' as const
@@ -41,6 +42,12 @@ if (process.env.MPP_PRIVATE_KEY) {
 const app = new Hono()
 
 app.use('*', cors())
+
+// ── GET /ui — Landing Page ────────────────────────────────────────────
+
+app.get('/ui', (c) => {
+  return c.html(landingHtml)
+})
 
 // ── GET / — Free Discovery ────────────────────────────────────────────
 

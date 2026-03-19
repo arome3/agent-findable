@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgentFindable — AI Agent Findability & Citability Audit API</title>
+  <meta name="description" content="Most websites are invisible to AI agents. Find out why — and fix it. Pay per request with MPP.">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      line-height: 1.7;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: #8b9cf7;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 24px;
+      width: 100%;
+    }
+
+    /* ── Hero ─────────────────────────────────────────────────── */
+
+    .hero {
+      padding: 80px 0 48px;
+      text-align: center;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8b9cf7;
+      background: rgba(139, 156, 247, 0.08);
+      border: 1px solid rgba(139, 156, 247, 0.15);
+      padding: 4px 12px;
+      border-radius: 999px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 40px;
+      font-weight: 700;
+      color: #f5f5f5;
+      letter-spacing: -0.025em;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .hero .tagline {
+      font-size: 18px;
+      color: #a0a0a0;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .hero .subtitle {
+      font-size: 15px;
+      color: #707070;
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ── Sections ─────────────────────────────────────────────── */
+
+    section {
+      margin-bottom: 32px;
+    }
+
+    .card {
+      background: #141414;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 32px;
+    }
+
+    .card h2 {
+      font-size: 20px;
+      font-weight: 600;
+      color: #f0f0f0;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    .card p {
+      color: #b0b0b0;
+      font-size: 14.5px;
+      line-height: 1.7;
+    }
+
+    /* ── Steps ─────────────────────────────────────────────────── */
+
+    .step {
+      margin-bottom: 24px;
+    }
+
+    .step:last-child {
+      margin-bottom: 0;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .step-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      background: rgba(139, 156, 247, 0.1);
+      border: 1px solid rgba(139, 156, 247, 0.2);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #8b9cf7;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-size: 14.5px;
+      font-weight: 500;
+      color: #d0d0d0;
+    }
+
+    /* ── Code Blocks ──────────────────────────────────────────── */
+
+    pre {
+      background: #0d1117;
+      border: 1px solid #21262d;
+      border-radius: 8px;
+      padding: 16px 18px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    pre code {
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace;
+      color: #c9d1d9;
+      background: none;
+      padding: 0;
+      font-size: inherit;
+    }
+
+    code {
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', 'Cascadia Code', Menlo, Consolas, 'Liberation Mono', monospace;
+      font-size: 13px;
+      background: rgba(139, 156, 247, 0.08);
+      color: #c9d1d9;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* ── Endpoints Table ──────────────────────────────────────── */
+
+    .endpoints-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    .endpoints-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #606060;
+      padding: 0 0 12px 0;
+      border-bottom: 1px solid #2a2a2a;
+    }
+
+    .endpoints-table td {
+      padding: 12px 0;
+      border-bottom: 1px solid #1e1e1e;
+      vertical-align: top;
+    }
+
+    .endpoints-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .endpoints-table .ep-method {
+      font-family: 'SF Mono', 'Fira Code', Menlo, Consolas, monospace;
+      font-size: 12.5px;
+      color: #8b9cf7;
+      white-space: nowrap;
+      padding-right: 16px;
+    }
+
+    .endpoints-table .ep-price {
+      color: #6ee7b7;
+      font-weight: 500;
+      white-space: nowrap;
+      padding-right: 16px;
+      font-size: 13px;
+    }
+
+    .endpoints-table .ep-desc {
+      color: #a0a0a0;
+    }
+
+    /* ── Audit Categories ──────────────────────────────────────── */
+
+    .categories-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .category-item {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      font-size: 13.5px;
+      color: #b0b0b0;
+      padding: 8px 12px;
+      background: #0d1117;
+      border-radius: 6px;
+      border: 1px solid #1e1e1e;
+    }
+
+    .category-weight {
+      font-family: 'SF Mono', Menlo, Consolas, monospace;
+      font-size: 11.5px;
+      color: #6ee7b7;
+      font-weight: 500;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .category-name {
+      color: #c0c0c0;
+    }
+
+    /* ── Payment Section ──────────────────────────────────────── */
+
+    .payment-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .flow-step {
+      flex: 1;
+      text-align: center;
+      padding: 16px 12px;
+      background: #0d1117;
+      border: 1px solid #1e1e1e;
+      border-radius: 8px;
+    }
+
+    .flow-step .flow-icon {
+      font-size: 20px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .flow-step .flow-label {
+      font-size: 12px;
+      color: #a0a0a0;
+      line-height: 1.5;
+    }
+
+    .flow-step .flow-label strong {
+      display: block;
+      color: #d0d0d0;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+
+    .payment-note {
+      margin-top: 16px;
+      font-size: 13.5px;
+      color: #808080;
+      line-height: 1.7;
+    }
+
+    .payment-note strong {
+      color: #a0a0a0;
+      font-weight: 500;
+    }
+
+    /* ── Footer ───────────────────────────────────────────────── */
+
+    footer {
+      margin-top: auto;
+      padding: 40px 0;
+      text-align: center;
+    }
+
+    footer .divider {
+      width: 40px;
+      height: 1px;
+      background: #2a2a2a;
+      margin: 0 auto 20px;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: #505050;
+    }
+
+    /* ── Responsive ───────────────────────────────────────────── */
+
+    @media (max-width: 600px) {
+      .hero {
+        padding: 56px 0 36px;
+      }
+
+      .hero h1 {
+        font-size: 28px;
+      }
+
+      .hero .tagline {
+        font-size: 16px;
+      }
+
+      .card {
+        padding: 24px 20px;
+      }
+
+      .categories-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .payment-flow {
+        flex-direction: column;
+      }
+
+      .endpoints-table .ep-method {
+        font-size: 11.5px;
+      }
+
+      pre {
+        font-size: 12px;
+        padding: 14px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- ── Hero ──────────────────────────────────────────────── -->
+    <header class="hero">
+      <div class="hero-badge">Pay-per-request API</div>
+      <h1>AgentFindable</h1>
+      <p class="tagline">AI Agent Findability &amp; Citability Audit API</p>
+      <p class="subtitle">Most websites are invisible to AI agents. Find out why&nbsp;&mdash;&nbsp;and fix it. Pay per request with MPP.</p>
+    </header>
+
+    <!-- ── How It Works ─────────────────────────────────────── -->
+    <section>
+      <div class="card">
+        <h2>How It Works</h2>
+
+        <div class="step">
+          <div class="step-header">
+            <span class="step-number">1</span>
+            <span class="step-title">Install Tempo CLI</span>
+          </div>
+          <pre><code>curl -sSL https://tempo.xyz/install | bash</code></pre>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <span class="step-number">2</span>
+            <span class="step-title">Fund your wallet</span>
+          </div>
+          <pre><code>tempo wallet login
+tempo wallet fund</code></pre>
+        </div>
+
+        <div class="step">
+          <div class="step-header">
+            <span class="step-number">3</span>
+            <span class="step-title">Scan any website</span>
+          </div>
+          <pre><code>tempo request -t -X POST \
+  --json '{"url":"https://example.com"}' \
+  https://lucid-nature-production.up.railway.app/scan</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Endpoints ────────────────────────────────────────── -->
+    <section>
+      <div class="card">
+        <h2>Supported Endpoints</h2>
+        <table class="endpoints-table">
+          <thead>
+            <tr>
+              <th>Endpoint</th>
+              <th>Price</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="ep-method">GET /</td>
+              <td class="ep-price">Free</td>
+              <td class="ep-desc">Service discovery</td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET /llms.txt</td>
+              <td class="ep-price">Free</td>
+              <td class="ep-desc">AI agent discovery</td>
+            </tr>
+            <tr>
+              <td class="ep-method">POST /scan</td>
+              <td class="ep-price">$0.10</td>
+              <td class="ep-desc">12-category findability audit</td>
+            </tr>
+            <tr>
+              <td class="ep-method">POST /scan</td>
+              <td class="ep-price">$0.15</td>
+              <td class="ep-desc">With live AI citation test</td>
+            </tr>
+            <tr>
+              <td class="ep-method">POST /compare</td>
+              <td class="ep-price">$0.50</td>
+              <td class="ep-desc">Benchmark up to 5 competitors</td>
+            </tr>
+            <tr>
+              <td class="ep-method">POST /boost</td>
+              <td class="ep-price">$0.30</td>
+              <td class="ep-desc">AI fix guide + generated files</td>
+            </tr>
+            <tr>
+              <td class="ep-method">GET /monitor</td>
+              <td class="ep-price">Free</td>
+              <td class="ep-desc">Score history &amp; trends</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── What Gets Audited ────────────────────────────────── -->
+    <section>
+      <div class="card">
+        <h2>What Gets Audited</h2>
+        <p style="margin-bottom: 16px;">Each scan evaluates your site across 12 research-backed categories, weighted by real-world impact on AI agent visibility.</p>
+        <div class="categories-grid">
+          <div class="category-item">
+            <span class="category-weight">15%</span>
+            <span class="category-name">Citability &amp; Evidence</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">12%</span>
+            <span class="category-name">Freshness Signals</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">12%</span>
+            <span class="category-name">AI Citation Reality</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">10%</span>
+            <span class="category-name">Structured Data Depth</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">10%</span>
+            <span class="category-name">Crawlability &amp; Rendering</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">8%</span>
+            <span class="category-name">llms.txt</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">8%</span>
+            <span class="category-name">robots.txt AI Bots</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">8%</span>
+            <span class="category-name">Content Readability</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">5%</span>
+            <span class="category-name">Agent Protocols</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">5%</span>
+            <span class="category-name">Security &amp; Trust</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">4%</span>
+            <span class="category-name">MCP Readiness</span>
+          </div>
+          <div class="category-item">
+            <span class="category-weight">3%</span>
+            <span class="category-name">Sitemap</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── How Payment Works ────────────────────────────────── -->
+    <section>
+      <div class="card">
+        <h2>How Payment Works</h2>
+        <p>AgentFindable uses <strong style="color:#d0d0d0;">MPP (Micropayment Protocol)</strong> for seamless pay-per-request billing.</p>
+
+        <div class="payment-flow">
+          <div class="flow-step">
+            <span class="flow-icon">1</span>
+            <div class="flow-label">
+              <strong>Request</strong>
+              Hit any paid endpoint
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-icon">2</span>
+            <div class="flow-label">
+              <strong>402 Challenge</strong>
+              Server returns payment terms
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-icon">3</span>
+            <div class="flow-label">
+              <strong>Auto-pay</strong>
+              Wallet pays USDC on Tempo
+            </div>
+          </div>
+          <div class="flow-step">
+            <span class="flow-icon">4</span>
+            <div class="flow-label">
+              <strong>Result</strong>
+              Response with payment proof
+            </div>
+          </div>
+        </div>
+
+        <p class="payment-note">
+          When you hit any paid endpoint, the server returns <code>402 Payment Required</code> with an MPP challenge.
+          Your Tempo wallet automatically pays in USDC on the Tempo blockchain (~500ms finality), then retries with payment proof.
+          <strong>You only pay for what you use.</strong> No subscriptions, no API keys, no accounts.
+        </p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ── Footer ──────────────────────────────────────────── -->
+  <footer>
+    <div class="divider"></div>
+    <p>Research / Experimental. Powered by MPP on Tempo.</p>
+  </footer>
+
+</body>
+</html>
